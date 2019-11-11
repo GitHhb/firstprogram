@@ -13,39 +13,38 @@ import java.util.Objects;
 class Solution {
     public int solution(int[] T, boolean[] B) {
         // write your code in Java SE 8
-        // amount of plutonium the ship can hold at maximum
+
         // Init
+        // amount of plutonium the ship can hold at maximum
         final int MAX_PLUTONIUM = 3;
-        final int INITIAL_PLUTONIUM = MAX_PLUTONIUM;
-        int startpoint;
+        final int INITIAL_PLUTONIUM = 0;
         int nrReachablePlanets = 0;
 
-        // Graph represented by array T will be transformed into class Planet.
+        // Graph represented by array T will be transformed using class Planet.
         // We only are interested on quick access of successors of the starting point. Thus the graph will be created
         // as a directed graph with origin at the starting point.
         class Planet {
             List<Integer> nextPlanets = new ArrayList<>();
         }
-        // planets[i] contains next planets
+        // planets[i] contains the planets reachable from planet i
         Planet[] planets = new Planet[T.length];
-        // hasFuel[i] indicates fuel availability
+        // hasFuel[i] indicates fuel availability on planet i
         boolean[] hasFuel = B;
 
         // SpaceCraftStop keeps track of the planet where the spacecraft arrived and the remaining fuel amount.
         // If the planet has fuel storage, the spacecraft is refueled automatically.
         class SpaceCraftStop {
             int planet; // current position
-            int fuel;   // amount of available fuel after refuelling if possible
+            int fuel;   // amount of available fuel, after refuelling if possible
 
             SpaceCraftStop(int planet, int fuel) {
-                System.out.printf("next %2d = fuel %2d\n", planet, fuel);
 
                 this.planet = planet;
                 // refuel if this planet has fuel
                 this.fuel = Integer.max(fuel, hasFuel[planet] ? MAX_PLUTONIUM : 0);
             }
         }
-        // SpaceCraftStops to be processed
+        // SpaceCraftStops still to be processed
         List<SpaceCraftStop> spaceCraftStops = new ArrayList<>();
 
         // create graph of planets and get starting point
@@ -58,31 +57,30 @@ class Solution {
                 continue;
             }
 
-            // add planet to graph, create the graph as a directed graph with origin at the starting point
+            // add planet to graph
             if (planets[T[i]] == null) {
                 planets[T[i]] = new Planet();
             }
             planets[T[i]].nextPlanets.add(i);
         }
 
-        int currentPlanet, currentFuel;
-        SpaceCraftStop newStop;
+        // Start travelling
+        SpaceCraftStop newStop, currentStop;
         while (spaceCraftStops.size() > 0) {
-            currentPlanet = spaceCraftStops.get(0).planet;
-            currentFuel = spaceCraftStops.get(0).fuel;
-            System.out.printf("curPlanet %2d = fuel %2d\n", currentPlanet, currentFuel);
+            currentStop = spaceCraftStops.get(0);
             spaceCraftStops.remove(0);
             // are there any successors for this planet?
-            if (Objects.nonNull(planets[currentPlanet])) {
-                // create stop for every planet that is reachable from the current planet
-                for (int nextPlanet : planets[currentPlanet].nextPlanets) {
-                    // if spacecraft is out of fuel then stop here
-                    if (currentFuel == 0) {
+            if (Objects.nonNull(planets[currentStop.planet])) {
+                // add new stop for every planet that is reachable from the current planet
+                for (int nextPlanet : planets[currentStop.planet].nextPlanets) {
+                    // if spacecraft is out of fuel then stop at this planet
+                    if (currentStop.fuel == 0) {
                         continue;
                     }
-                    newStop = new SpaceCraftStop(nextPlanet, currentFuel - 1);
-                    nrReachablePlanets++;
+                    // currentStop.fuel > 1
+                    newStop = new SpaceCraftStop(nextPlanet, currentStop.fuel - 1);
                     spaceCraftStops.add(newStop);
+                    nrReachablePlanets++;
                 }
             }
         }
