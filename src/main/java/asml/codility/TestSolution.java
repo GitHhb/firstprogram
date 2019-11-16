@@ -155,10 +155,10 @@ public class TestSolution {
         };
         int[] planets0 = { 9, 1, 4, 9, 0, 4, 8, 1, 0, 7 };
         boolean[] plutonium0 = { false, true, false, false, false, true, false, true, false, false };
-//        planets = createLinearGraphPlanets();
-//        plutonium = createLinearGraphFuel();
-                planets = planets0;
-                plutonium = plutonium0;
+        planets = createLinearGraphPlanets();
+        plutonium = createLinearGraphFuel();
+//                planets = planets0;
+//                plutonium = plutonium0;
 
         //        long startTime, endTime;
         startTime();
@@ -228,12 +228,12 @@ public class TestSolution {
 
         int[] planets3 = new int[] {};
         boolean[] plutonium3 = {};
-        System.out.println(new Solution().solution(planets3, plutonium3));
-        System.out.println(new Solution2().solution(planets3, plutonium3));
-        System.out.println(new SolutionNoClass().solution(planets3, plutonium3));
-        System.out.println(new SolutionStartFromEnd().solution(planets3, plutonium3));
-        System.out.println(new SolutionStartFromEndv2().solution(planets3, plutonium3));
-        System.out.println();
+//        System.out.println(new Solution().solution(planets3, plutonium3));
+//        System.out.println(new Solution2().solution(planets3, plutonium3));
+//        System.out.println(new SolutionNoClass().solution(planets3, plutonium3));
+//        System.out.println(new SolutionStartFromEnd().solution(planets3, plutonium3));
+//        System.out.println(new SolutionStartFromEndv2().solution(planets3, plutonium3));
+//        System.out.println();
 
         int[] planets4 = new int[] { 0, 0, 2, 2, 3, 4, 5 };
         planets3 = planets4;
@@ -289,7 +289,7 @@ public class TestSolution {
     }
 
     static int[] createLinearGraphPlanets() {
-        return new int[] { 999, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+        return new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
                 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,
                 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77,
                 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102,

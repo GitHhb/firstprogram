@@ -8,19 +8,34 @@ public class SolutionStartFromEndv2 {
 
     public int solution(int[] T, boolean[] B) {
 
+        // find startplanet
+        int startplanet = -1;
+        for (int i = 0; i < T.length; i++) {
+            if (i == T[i]) {
+                if (B[i] == false) {
+                    // startplanet has no fuel, so we can't leave
+                    return 1;
+                } else {
+                    // found, skip rest
+                    startplanet = i;
+                    break;
+                }
+            }
+        }
+
         // INIT fuelreserves of spaceship to 0
         byte[] fuelLeft = new byte[T.length];
-
-        int nrReachablePlanets = 0;
+        fuelLeft[startplanet] = B[startplanet] ? MAX_FUEL : MIN_FUEL;
+        int nrNodesVisited = 1;
+        int nrReachablePlanets = 1;
 
         // INIT path
         int[] path = new int[T.length];
         int iPath; // index into path
-        int planet, nrNodesVisited = 0;
+        int planet;
 
         // grab a planet, trace route back towards startplanet,
         // but stop when reached a planet where the ship fuel reserves are known
-        forloop:
         for (int i = 0; i < T.length && nrNodesVisited < T.length; i++) {
             if (fuelLeft[i] != FUEL_LEVEL_UNKNOWN) {
                 continue;
@@ -36,16 +51,7 @@ public class SolutionStartFromEndv2 {
                 // goto next planet
                 planet = T[planet];
             }
-            // if we arrived at a start planet, then initialise
-            if (path[iPath - 1] == T[path[iPath - 1]]) {
-                nrReachablePlanets++;
-                if (B[path[iPath - 1]] == false) {
-                    // no fuel at the startplanet, so we can't reach any other planet
-                    break forloop;
-                }
-                fuelLeft[path[iPath - 1]] = B[path[iPath - 1]] ? MAX_FUEL : MIN_FUEL;
-                iPath--;
-            }
+
             // follow path from startpoint to endpoint and update fuel reserves at each planet
             while (iPath > 0) {
                 iPath--;
